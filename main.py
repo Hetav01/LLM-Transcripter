@@ -11,7 +11,7 @@ from zipfile import ZipFile
 load_dotenv()
 
 # Set the OpenAI API key
-openai.api_key = os.getenv("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")
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 @st.cache_data
 
