@@ -6,6 +6,8 @@ import shutil
 from dotenv import load_dotenv
 import whisper
 from zipfile import ZipFile
+from pytubefix import YouTube
+from pathlib import Path
 
 load_dotenv()
 
