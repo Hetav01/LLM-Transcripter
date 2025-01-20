@@ -1,17 +1,17 @@
 import streamlit as st
 import openai
 from openai import OpenAI
-# from config import OPENAI_API_KEY
 # from pytube import YouTube
 # import yt_dlp
 import os
 import shutil
 from dotenv import load_dotenv
-import whisper
 from zipfile import ZipFile
 from pytubefix import YouTube
 from pathlib import Path
 import time
+
+from transcriptHelper import save_audio, save_audio_to_transcript
 
 load_dotenv()
 
@@ -25,62 +25,6 @@ if not api_key:
 
 @st.cache_data
 
-def load_model():
-    model = whisper.load_model("base")
-    return model
-    
-
-def save_audio(url):
-    yt = YouTube(url)
-    video = yt.streams.filter(only_audio=True).first()
-    
-    out_file = video.download()     # Download the file
-    root, ext = os.path.splitext(out_file)
-    
-    file_name = root + ".mp3"
-    
-    try: 
-        os.rename(out_file, file_name)  # Rename the file
-    except OSError as e:
-        os.remove(file_name)
-        os.rename(out_file, file_name)
-    
-    audio_filename = Path(file_name).stem + ".mp3"
-    
-    print(f"{yt.title} has been successfully downloaded")     # Success message
-    print(file_name)
-    
-    return yt.title, audio_filename 
- 
-# tried with yt_dlp
-# def save_audio(url):
-#     ydl_opts = {
-#         'format': 'bestaudio/best',
-#         'outtmpl': '%(title)s.%(ext)s',
-#         'postprocessors': [{
-#             'key': 'FFmpegExtractAudio',
-#             'preferredcodec': 'mp3',
-#             'preferredquality': '192',
-#         }],
-#     }
-
-#     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-#         info_dict = ydl.extract_info(url, download=True)
-#         file_name = ydl.prepare_filename(info_dict)
-#         root, ext = os.path.splitext(file_name)
-#         audio_filename = root + ".mp3"
-    
-#     return info_dict['title'], audio_filename
-
-
-
-def save_audio_to_transcript(audio_file):
-    model = load_model()
-    
-    result = model.transcribe(audio_file)
-    transcript = result["text"]
-    
-    return transcript
 
 def text_to_Article(text):
     # deprecated...
@@ -108,7 +52,7 @@ def text_to_Article(text):
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": "Write a news article in 500 words from the below text: \n" + text}
+            {"role": "user", "content": f"Write a news article in 500 words from the below text: {text}\n. Make sure to bold the title."}
         ],
         temperature=0.7,
         max_tokens=600,
@@ -149,3 +93,25 @@ if st.checkbox("Start Analysis"):
     st.success(result)
     st.success("The article has been generated successfully!")
     
+    
+    #write the code to save and download the transcript and article
+    transcript_txt = open("transcript.txt", "w")
+    transcript_txt.write(transcript)
+    transcript_txt.close()
+    
+    article_txt = open("article.txt", "w")
+    article_txt.write(result)
+    article_txt.close()
+    
+    zip_file = ZipFile("output.zip", "w")
+    zip_file.write("transcript.txt")
+    zip_file.write("article.txt")
+    zip_file.close()
+    
+    with open("output.zip", "rb") as zip_download:
+        download_btn = st.download_button(
+            data= zip_download,
+            file_name= "output.zip",
+            label= "Download (in .zip)",
+            mime= "application/zip"
+        )        
