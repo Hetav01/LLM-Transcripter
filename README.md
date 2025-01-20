@@ -82,6 +82,17 @@ streamlit run main.py
 - **🎙 OpenAI Whisper** (Audio Transcription)
 - **📹 PytubeFix** (YouTube Audio Extraction)
 
+## ❗ Known Issues
+### `pytubefix.exceptions.BotDetection: sVGg90hukLI This request was detected as a bot.`
+
+This error occurs when YouTube detects automated access to its content and blocks the request. This issue is common with `pytubefix`, as YouTube regularly updates its bot detection mechanisms. Possible workarounds include:
+- Using a VPN or proxy to change your IP address.
+- Implementing a delay between requests to mimic human behavior.
+- Using an alternative method for downloading YouTube audio, such as `yt-dlp`.
+- Updating `pytubefix` to the latest version to check for fixes.
+
+This issue is currently being investigated for a more permanent solution.
+
 ## 📜 License
 This project is licensed under the MIT License.
 
