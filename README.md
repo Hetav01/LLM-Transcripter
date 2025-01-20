@@ -86,7 +86,7 @@ streamlit run main.py
 This project is licensed under the MIT License.
 
 ## 👤 Author
-**Hetav**
+**Hetav a.k.a GodSpeed**
 
 ---
 🚀 Enjoy using **LLaMe NEWS** and revolutionize news generation! 📰✨
