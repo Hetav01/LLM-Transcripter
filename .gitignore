@@ -3,3 +3,6 @@ key.txt
 myenv
 .venv
 .env
+**.txt
+**.zip
+!requirements.txt

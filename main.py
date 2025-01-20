@@ -52,7 +52,7 @@ def text_to_Article(text):
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": f"Write a news article in 500 words from the below text: {text}\n. Make sure to bold the title."}
+            {"role": "user", "content": f"Write a news article in 500 words from the below text: {text}\n. Make sure to bold and enlarge the title."}
         ],
         temperature=0.7,
         max_tokens=600,
@@ -86,11 +86,11 @@ if st.checkbox("Start Analysis"):
     
     st.header("Transcripts are being extracted...")
     transcriptGenerated = typewriter_streamlit(text=transcript, speed=25)
-    st.success(transcriptGenerated)
+    # st.success(transcriptGenerated)
     st.success("Transcripts have been extracted successfully!") 
     
     result = text_to_Article(transcript)
-    st.success(result)
+    typewriter_streamlit(text= result, speed=25)
     st.success("The article has been generated successfully!")
     
     
