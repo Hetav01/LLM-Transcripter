@@ -1,5 +1,7 @@
 import streamlit as st
 import openai
+from openai import OpenAI
+# from config import OPENAI_API_KEY
 # from pytube import YouTube
 # import yt_dlp
 import os
@@ -13,8 +15,13 @@ import time
 
 load_dotenv()
 
+
+
 # Set the OpenAI API key
-openai.api_key = os.getenv("OPENAI_API_KEY")
+api_key = os.getenv("OPENAI_API_KEY")
+
+if not api_key:
+    raise ValueError("Missing OPENAI_API_KEY. Set it as an environment variable.")
 
 @st.cache_data
 
@@ -76,7 +83,28 @@ def save_audio_to_transcript(audio_file):
     return transcript
 
 def text_to_Article(text):
-    response = openai.ChatCompletion.create(
+    # deprecated...
+    #
+    # response = openai.ChatCompletion.create(
+    #     model="gpt-3.5-turbo",
+    #     messages=[
+    #         {"role": "system", "content": "You are a helpful assistant."},
+    #         {"role": "user", "content": "Write a news article in 500 words from the below text: \n" + text}
+    #     ],
+    #     temperature=0.7,
+    #     max_tokens=600,
+    #     top_p=1,
+    #     frequency_penalty=0,
+    #     presence_penalty=0
+    # )
+    
+    # return response["choices"][0]["text"]
+    
+    client = OpenAI(
+        api_key=api_key
+    )
+    
+    response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
@@ -89,7 +117,7 @@ def text_to_Article(text):
         presence_penalty=0
     )
     
-    return response["choices"][0]["text"]
+    return response.choices[0].message.content
 
 #write the streamlit code (frontend for prototyping)
 
@@ -113,7 +141,7 @@ if st.checkbox("Start Analysis"):
     transcript = save_audio_to_transcript(audio_filename)
     
     st.header("Transcripts are being extracted...")
-    transcriptGenerated = typewriter_streamlit(text=transcript, speed=15)
+    transcriptGenerated = typewriter_streamlit(text=transcript, speed=25)
     st.success(transcriptGenerated)
     st.success("Transcripts have been extracted successfully!") 
     
