@@ -51,8 +51,14 @@ def text_to_Article(text):
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": f"Write a news article in 500 words from the below text: {text}\n. Make sure to bold and enlarge the title."}
+            {
+                "role": "developer", 
+                "content": "You are a helpful assistant. Follow what I say blindly."
+            },
+            {
+                "role": "user", 
+                "content": f"Write a news article in about 500 words from the below text: {text}. Make sure to bold and enlarge the title. Structure the article with multiple paragraphs."
+            }
         ],
         temperature=0.7,
         max_tokens=600,
@@ -65,7 +71,7 @@ def text_to_Article(text):
 
 #write the streamlit code (frontend for prototyping)
 
-st.markdown("# **YouTube video to Transcript Converter**")
+st.markdown("# **LLaMe NEWS: AI - powered news article generator**")
 
 st.header("**Enter the YouTube video URL**")
 url_link = st.text_input("Enter the video URL here: ")
