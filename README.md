@@ -85,6 +85,8 @@ streamlit run main.py
 ## ❗ Known Issues
 ### `pytubefix.exceptions.BotDetection: sVGg90hukLI This request was detected as a bot.`
 
+![title](BotBug.png)
+
 This error occurs when YouTube detects automated access to its content and blocks the request. This issue is common with `pytubefix`, as YouTube regularly updates its bot detection mechanisms. Possible workarounds include:
 - Using a VPN or proxy to change your IP address.
 - Implementing a delay between requests to mimic human behavior.
