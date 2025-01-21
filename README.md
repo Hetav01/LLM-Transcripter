@@ -10,9 +10,9 @@ LLaMe NEWS is an AI-powered tool that extracts audio from YouTube videos, transc
 - 💻 Streamlit-based UI for seamless interaction
 - 📂 Downloadable transcript and article files in a ZIP format
 
-![Bug Image]([https://github.com/Hetav01/LLaMe-Transcripter/blob/main/work1])
+![Bug Image](https://github.com/Hetav01/LLaMe-Transcripter/blob/main/work1)
 
-![Bug Image]([https://github.com/Hetav01/LLaMe-Transcripter/blob/main/work2])
+![Bug Image](https://github.com/Hetav01/LLaMe-Transcripter/blob/main/work2)
 
 
 ## 🔧 Prerequisites
